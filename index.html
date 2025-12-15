@@ -329,7 +329,79 @@
     /* ======================
        СКРИПТ: поведение страницы
        ====================== */
-
+// Динамическая загрузка изображений портфолио
+document.addEventListener('DOMContentLoaded', function() {
+    const gallery = document.querySelector('.gallery');
+    if (!gallery) return;
+    
+    // Массив с путями к изображениям
+    const portfolioImages = [
+        'images/potolok1.jpg',
+        'images/potolok2.jpg',
+        'images/potolok3.jpg',
+        'images/potolok4.jpg',
+        'images/potolok5.jpg',
+        'images/potolok6.jpg',
+        'images/potolok7.jpg',
+        'images/potolok8.jpg',
+        'images/potolok9.jpg',
+        'images/potolok10.jpg',
+        'images/potolok11.jpg',
+        'images/potolok12.jpg',
+        'images/potolok13.jpg',
+        'images/potolok14.jpg',
+        'images/potolok15.jpg',
+        'images/potolok16.jpg',
+        'images/potolok17.jpg',
+        'images/potolok18.jpg',
+        'images/potolok19.jpg',
+        'images/potolok20.jfif',
+        'images/potolok21.png',
+        'images/potolok22.jfif',
+        'images/potolok23.png',
+        'images/potolok24.png',
+        'images/potolok25.png',
+        'images/potolok26.png',
+        'images/potolok27.png',
+        'images/potolok28.png',
+        'images/potolok29.jfif',
+        'images/potolok30.jfif'
+    ];
+    
+    // Очищаем галерею
+    gallery.innerHTML = '';
+    
+    // Динамически создаем и загружаем изображения
+    portfolioImages.forEach((src, index) => {
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.alt = 'Пример работы ' + (index + 1);
+        
+        // Используем Image() для предзагрузки
+        const loader = new Image();
+        loader.onload = function() {
+            img.src = src;
+            img.classList.add('loaded');
+        };
+        loader.onerror = function() {
+            console.log('Ошибка загрузки:', src);
+            // Можно установить fallback-изображение
+            img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200"><rect width="100%" height="100%" fill="%23f0f0f0"/><text x="50%" y="50%" font-family="Arial" font-size="14" fill="%23666" text-anchor="middle" dy=".3em">Изображение %23' + (index+1) + '</text></svg>';
+        };
+        loader.src = src;
+        
+        // Добавляем в галерею
+        gallery.appendChild(img);
+        
+        // Делаем кликабельным для попапа
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', () => {
+            if (window.openWithGallery) {
+                window.openWithGallery(portfolioImages, index);
+            }
+        });
+    });
+});
     // Плавная прокрутка по якорям
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -622,4 +694,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
     </script>
 </body>
+
 </html>
