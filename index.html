@@ -173,42 +173,13 @@
     </div>
 
     <section id="portfolio">
-    <h2>Наши работы</h2>
-    <p class="section-subtitle">Примеры наших работ в Моргаушах и в близлежащих районах</p>
-    <div class="gallery">
-        <!-- 30 фотографий портфолио (простая сетка) -->
-        <img src="images/potolok1.jpg" alt="Натяжной потолок глянцевый" loading="lazy">
-        <img src="images/potolok2.jpg" alt="Матовый потолок в гостиной" loading="lazy">
-        <img src="images/potolok3.jpg" alt="Многоуровневый потолок" loading="lazy">
-        <img src="images/potolok4.jpg" alt="Потолок с точечными светильниками" loading="lazy">
-        <img src="images/potolok5.jpg" alt="Сатиновый потолок" loading="lazy">
-        <img src="images/potolok6.jpg" alt="Потолок в ванной комнате" loading="lazy">
-        <img src="images/potolok7.jpg" alt="Двухуровневый потолок с подсветкой" loading="lazy">
-        <img src="images/potolok8.jpg" alt="Черный глянцевый потолок" loading="lazy">
-        <img src="images/potolok9.jpg" alt="Парящий потолок" loading="lazy">
-        <img src="images/potolok10.jpg" alt="Потолок в детской комнате" loading="lazy">
-        <img src="images/potolok11.jpg" alt="Потолок на кухне" loading="lazy">
-        <img src="images/potolok12.jpg" alt="Потолок в спальне" loading="lazy">
-        <img src="images/potolok13.jpg" alt="Потолок с фотопечатью" loading="lazy">
-        <img src="images/potolok14.jpg" alt="Звездное небо на потолке" loading="lazy">
-        <img src="images/potolok15.jpg" alt="Потолок в прихожей" loading="lazy">
-        <img src="images/potolok16.jpg" alt="Арочный потолок" loading="lazy">
-        <img src="images/potolok17.jpg" alt="Потолок в офисе" loading="lazy">
-        <img src="images/potolok18.jpg" alt="Потолок с LED-подсветкой" loading="lazy">
-        <img src="images/potolok19.jpg" alt="Белый матовый потолок" loading="lazy">
-        <img src="images/potolok20.jfif" alt="Потолок в кафе" loading="lazy">
-        <img src="images/potolok21.png" alt="Потолок с нишами" loading="lazy">
-        <img src="images/potolok22.jfif" alt="Цветной потолок" loading="lazy">
-        <img src="images/potolok23.png" alt="Потолок в магазине" loading="lazy">
-        <img src="images/potolok24.png" alt="Потолок с узорами" loading="lazy">
-        <img src="images/potolok25.png" alt="Потолок в ресторане" loading="lazy">
-        <img src="images/potolok26.png" alt="Потолок в бассейне" loading="lazy">
-        <img src="images/potolok27.png" alt="Потолок с 3D эффектом" loading="lazy">
-        <img src="images/potolok28.png" alt="Потолок в спортзале" loading="lazy">
-        <img src="images/potolok29.jfif" alt="Потолок в сауне" loading="lazy">
-        <img src="images/potolok30.jfif" alt="Потолок в коридоре" loading="lazy">
-    </div>
-</section>
+        <h2>Наши работы</h2>
+        <p class="section-subtitle">Примеры наших работ в Моргаушах и в близлежащих районах</p>
+        <div class="gallery" id="portfolio-gallery">
+            <!-- Изображения загрузятся через JavaScript -->
+            <div class="loading-message">Загрузка портфолио...</div>
+        </div>
+    </section>
     
     <section id="zayavka" class="zayavka-section">
         <div class="container">
@@ -326,15 +297,26 @@
 
     <!-- JavaScript код -->
     <script>
-    /* ======================
-       СКРИПТ: поведение страницы
-       ====================== */
-// Динамическая загрузка изображений портфолио
-document.addEventListener('DOMContentLoaded', function() {
-    const gallery = document.querySelector('.gallery');
-    if (!gallery) return;
-    
-    // Массив с путями к изображениям
+    // Данные галерей для услуг
+    const galleries = {
+        ceilings: [
+            'images/ceilings1.jpg',
+            'images/ceilings2.png',
+            'images/ceilings3.jfif'
+        ],
+        lighting: [
+            'images/light1.jfif',
+            'images/light2.png',
+            'images/light3.jpg'
+        ],
+        decor: [
+            'images/decor1.jpg',
+            'images/decor2.png',
+            'images/decor3.png'
+        ]
+    };
+
+    // Массив изображений портфолио
     const portfolioImages = [
         'images/potolok1.jpg',
         'images/potolok2.jpg',
@@ -367,125 +349,6 @@ document.addEventListener('DOMContentLoaded', function() {
         'images/potolok29.jfif',
         'images/potolok30.jfif'
     ];
-    
-    // Очищаем галерею
-    gallery.innerHTML = '';
-    
-    // Динамически создаем и загружаем изображения
-    portfolioImages.forEach((src, index) => {
-        const img = document.createElement('img');
-        img.loading = 'lazy';
-        img.alt = 'Пример работы ' + (index + 1);
-        
-        // Используем Image() для предзагрузки
-        const loader = new Image();
-        loader.onload = function() {
-            img.src = src;
-            img.classList.add('loaded');
-        };
-        loader.onerror = function() {
-            console.log('Ошибка загрузки:', src);
-            // Можно установить fallback-изображение
-            img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200"><rect width="100%" height="100%" fill="%23f0f0f0"/><text x="50%" y="50%" font-family="Arial" font-size="14" fill="%23666" text-anchor="middle" dy=".3em">Изображение %23' + (index+1) + '</text></svg>';
-        };
-        loader.src = src;
-        
-        // Добавляем в галерею
-        gallery.appendChild(img);
-        
-        // Делаем кликабельным для попапа
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', () => {
-            if (window.openWithGallery) {
-                window.openWithGallery(portfolioImages, index);
-            }
-        });
-    });
-});
-    // Плавная прокрутка по якорям
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                // Закрываем меню на мобильных
-                if (window.innerWidth <= 768 && nav.classList.contains('active')) {
-                    nav.classList.remove('active');
-                    burger.classList.remove('active');
-                }
-                
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // Анимация появления секций
-    const sections = document.querySelectorAll("section");
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("fade-in");
-                }
-            });
-        }, { threshold: 0.2 });
-        sections.forEach(section => observer.observe(section));
-    }
-
-    // Бургер-меню
-    const burger = document.getElementById('burger');
-    const nav = document.getElementById('nav');
-    const navLinks = document.querySelectorAll('.nav a');
-    const navSocialIcons = document.querySelectorAll('.nav-social-icon');
-    
-    if (burger) {
-        burger.addEventListener('click', () => {
-            burger.classList.toggle('active');
-            nav.classList.toggle('active');
-        });
-    }
-    
-    // Закрытие меню при клике на ссылку
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (nav.classList.contains('active')) {
-                nav.classList.remove('active');
-                burger.classList.remove('active');
-            }
-        });
-    });
-    
-    // Закрытие меню при клике на соцсети
-    navSocialIcons.forEach(icon => {
-        icon.addEventListener('click', () => {
-            if (nav.classList.contains('active')) {
-                nav.classList.remove('active');
-                burger.classList.remove('active');
-            }
-        });
-    });
-
-    // Данные галерей для услуг (по 3 фото на каждую услугу)
-    const galleries = {
-        ceilings: [
-            'images/ceilings1.jpg',
-            'images/ceilings2.png',
-            'images/ceilings3.jfif'
-        ],
-        lighting: [
-            'images/light1.jfif',
-            'images/light2.png',
-            'images/light3.jpg'
-        ],
-        decor: [
-            'images/decor1.jpg',
-            'images/decor2.png',
-            'images/decor3.png'
-        ]
-    };
 
     // Унифицированная попап-галерея
     (function() {
@@ -499,7 +362,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentGallery = [];
         let currentIndex = 0;
 
-        function openWithGallery(arr, startIndex = 0) {
+        // Делаем функцию глобальной для доступа из других скриптов
+        window.openWithGallery = function(arr, startIndex = 0) {
             if (!Array.isArray(arr) || !arr.length) return;
             currentGallery = arr.slice();
             currentIndex = startIndex;
@@ -508,7 +372,8 @@ document.addEventListener('DOMContentLoaded', function() {
             popup.setAttribute('aria-hidden', 'false');
             popupInner.setAttribute('tabindex', '-1');
             popupInner.focus();
-        }
+            document.body.style.overflow = 'hidden';
+        };
 
         function showCurrent() {
             if (!currentGallery.length) return;
@@ -524,6 +389,7 @@ document.addEventListener('DOMContentLoaded', function() {
             popup.setAttribute('aria-hidden', 'true');
             currentGallery = [];
             currentIndex = 0;
+            document.body.style.overflow = '';
         }
 
         // Стрелки
@@ -533,6 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentIndex = (currentIndex + 1) % currentGallery.length;
             showCurrent();
         });
+        
         leftArrow.addEventListener('click', (e) => {
             e.stopPropagation();
             if (!currentGallery.length) return;
@@ -540,18 +407,18 @@ document.addEventListener('DOMContentLoaded', function() {
             showCurrent();
         });
 
-        // close
+        // Закрытие
         closeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             closePopup();
         });
 
-        // клик по фону
+        // Клик по фону
         popup.addEventListener('click', (e) => {
             if (e.target === popup) closePopup();
         });
 
-        // клавиши
+        // Клавиши
         document.addEventListener('keydown', (e) => {
             if (!popup.classList.contains('active')) return;
             if (e.key === 'Escape') closePopup();
@@ -559,30 +426,19 @@ document.addEventListener('DOMContentLoaded', function() {
             else if (e.key === 'ArrowLeft') leftArrow.click();
         });
 
-        // Привязки: картинки портфолио
-        const portfolioImgs = document.querySelectorAll('#portfolio .gallery img');
-        if (portfolioImgs.length) {
-            const portfolioArr = Array.from(portfolioImgs).map(img => img.src);
-            portfolioImgs.forEach((img, i) => {
-                img.style.cursor = 'pointer';
-                img.addEventListener('click', () => openWithGallery(portfolioArr, i));
-            });
-        }
-
         // Привязки: карточки услуг
         const serviceCards = document.querySelectorAll('.usluga-card');
         serviceCards.forEach(card => {
             const galleryKey = card.dataset.gallery;
             
             card.addEventListener('click', function(e) {
-                // Проверяем, не кликнули ли по тексту или заголовку
                 if (e.target.tagName === 'H3' || e.target.tagName === 'P' || 
                     e.target.classList.contains('service-description')) {
                     return;
                 }
                 
                 if (galleryKey && galleries[galleryKey]) {
-                    openWithGallery(galleries[galleryKey], 0);
+                    window.openWithGallery(galleries[galleryKey], 0);
                 }
             });
             
@@ -597,102 +453,275 @@ document.addEventListener('DOMContentLoaded', function() {
                         const imgSrc = this.src;
                         const gallery = galleries[galleryKey];
                         const index = gallery.findIndex(url => imgSrc.includes(url.split('/').pop()));
-                        openWithGallery(gallery, Math.max(index, 0));
+                        window.openWithGallery(gallery, Math.max(index, 0));
                     }
                 });
             });
         });
     })();
 
-    // Обработка формы
-    document.addEventListener("DOMContentLoaded", function() {
-        const form = document.getElementById("contact-form");
-        if (!form) return;
-        
-        form.addEventListener("submit", async function(e) {
-            e.preventDefault();
-
-            const data = {
-                name: form.name.value,
-                _replyto: form.querySelector('[name="_replyto"]')?.value || '',
-                phone: form.phone.value,
-                message: form.message.value
-            };
-
-            const originalButtonText = form.querySelector("button").innerHTML;
-            form.querySelector("button").innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
-            form.querySelector("button").disabled = true;
-
-            try {
-                const response = await fetch(form.action, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-
-                // Создаем сообщение, если его нет
-                let messageDiv = document.getElementById('form-message');
-                if (!messageDiv) {
-                    messageDiv = document.createElement('div');
-                    messageDiv.id = 'form-message';
-                    form.parentNode.insertBefore(messageDiv, form.nextSibling);
-                }
-
-                if (response.ok) {
-                    form.reset();
-                    messageDiv.innerHTML = '<p class="success-message">✅ Заявка успешно отправлена! Мы свяжемся с вами в течение 30 минут.</p>';
-                    setTimeout(() => {
-                        messageDiv.innerHTML = '';
-                    }, 5000);
-                } else {
-                    messageDiv.innerHTML = '<p class="error-message">❌ Ошибка при отправке. Попробуйте позже.</p>';
-                }
-            } catch (error) {
-                let messageDiv = document.getElementById('form-message');
-                if (!messageDiv) {
-                    messageDiv = document.createElement('div');
-                    messageDiv.id = 'form-message';
-                    form.parentNode.insertBefore(messageDiv, form.nextSibling);
-                }
-                messageDiv.innerHTML = '<p class="error-message">⚠️ Ошибка сети. Проверьте подключение к интернету.</p>';
-            } finally {
-                form.querySelector("button").innerHTML = originalButtonText;
-                form.querySelector("button").disabled = false;
-            }
-        });
+    // Динамическая загрузка портфолио
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPortfolio();
+        setupPageInteractions();
     });
-    
-    // Обновленный код для портфолио в JS
-document.addEventListener('DOMContentLoaded', function() {
-    // Привязки: картинки портфолио
-    const portfolioItems = document.querySelectorAll('#portfolio .gallery-item');
-    if (portfolioItems.length) {
-        const portfolioArr = Array.from(portfolioItems).map(item => 
-            item.querySelector('img').src
-        );
+
+    function loadPortfolio() {
+        const gallery = document.getElementById('portfolio-gallery');
+        if (!gallery) return;
         
-        portfolioItems.forEach((item, i) => {
-            item.addEventListener('click', () => openWithGallery(portfolioArr, i));
-        });
+        // Очищаем и показываем загрузку
+        gallery.innerHTML = '<div class="loading-message">Загрузка портфолио...</div>';
+        
+        // Загружаем изображения с задержкой для мобильных
+        setTimeout(() => {
+            createPortfolioImages(gallery);
+        }, window.innerWidth <= 768 ? 1000 : 500); // Больше времени для мобильных
     }
-    
-    // Ленивая загрузка изображений
-    const images = document.querySelectorAll('img[loading="lazy"]');
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.classList.add('loaded');
-                    observer.unobserve(img);
+
+    function createPortfolioImages(gallery) {
+        gallery.innerHTML = '';
+        
+        portfolioImages.forEach((src, index) => {
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'portfolio-image-container';
+            
+            const img = document.createElement('img');
+            img.loading = 'lazy';
+            img.alt = 'Пример работы ' + (index + 1);
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.5s ease';
+            
+            // Предзагрузка через Image объект
+            const preloader = new Image();
+            
+            preloader.onload = function() {
+                img.src = src;
+                img.style.opacity = '1';
+                img.classList.add('loaded');
+                
+                // Логирование для отладки
+                if (window.innerWidth <= 768) {
+                    console.log('Мобильное: загружено', src);
+                }
+            };
+            
+            preloader.onerror = function() {
+                console.warn('Не удалось загрузить:', src);
+                // Fallback для мобильных
+                if (window.innerWidth <= 768 && src.includes('.jfif')) {
+                    // Пробуем альтернативный способ для .jfif на мобильных
+                    const jpegAlternative = src.replace('.jfif', '.jpg');
+                    img.src = jpegAlternative;
+                } else {
+                    // SVG placeholder
+                    img.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200"><rect width="300" height="200" fill="%23f5f5f5"/><text x="150" y="100" font-family="Arial" font-size="14" fill="%23666" text-anchor="middle" dominant-baseline="middle">Работа ${index + 1}</text></svg>`;
+                }
+                img.style.opacity = '1';
+            };
+            
+            // Начинаем загрузку
+            preloader.src = src;
+            
+            // Добавляем в контейнер
+            imgContainer.appendChild(img);
+            gallery.appendChild(imgContainer);
+            
+            // Клик для открытия в попапе
+            img.addEventListener('click', () => {
+                if (typeof window.openWithGallery === 'function') {
+                    window.openWithGallery(portfolioImages, index);
                 }
             });
         });
         
-        images.forEach(img => imageObserver.observe(img));
+        // Добавляем стили динамически
+        const style = document.createElement('style');
+        style.textContent = `
+            .portfolio-image-container {
+                position: relative;
+                overflow: hidden;
+                border-radius: 12px;
+                background: #f0f0f0;
+                min-height: 200px;
+            }
+            .portfolio-image-container img {
+                width: 100%;
+                height: 250px;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+            .portfolio-image-container img:hover {
+                transform: scale(1.03);
+            }
+            .loading-message {
+                text-align: center;
+                padding: 40px;
+                color: #666;
+                font-size: 18px;
+                grid-column: 1 / -1;
+            }
+            @media (max-width: 768px) {
+                .portfolio-image-container img {
+                    height: 200px;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     }
-});
+
+    function setupPageInteractions() {
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    // Закрываем меню на мобильных
+                    const nav = document.getElementById('nav');
+                    const burger = document.getElementById('burger');
+                    if (window.innerWidth <= 768 && nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        burger.classList.remove('active');
+                    }
+                    
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Анимация секций
+        const sections = document.querySelectorAll("section");
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("fade-in");
+                    }
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Бургер-меню
+        const burger = document.getElementById('burger');
+        const nav = document.getElementById('nav');
+        
+        if (burger) {
+            burger.addEventListener('click', () => {
+                burger.classList.toggle('active');
+                nav.classList.toggle('active');
+                document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+            });
+        }
+        
+        // Закрытие меню при клике на ссылку
+        document.querySelectorAll('.nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                    burger.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Обработка формы
+        const form = document.getElementById("contact-form");
+        if (form) {
+            form.addEventListener("submit", async function(e) {
+                e.preventDefault();
+
+                const submitBtn = form.querySelector("button[type='submit']");
+                const originalText = submitBtn.innerHTML;
+                
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+                submitBtn.disabled = true;
+
+                try {
+                    const formData = new FormData(form);
+                    const response = await fetch(form.action, {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    // Создаем или находим div для сообщений
+                    let messageDiv = document.getElementById('form-message');
+                    if (!messageDiv) {
+                        messageDiv = document.createElement('div');
+                        messageDiv.id = 'form-message';
+                        form.parentNode.insertBefore(messageDiv, form.nextSibling);
+                    }
+
+                    if (response.ok) {
+                        form.reset();
+                        messageDiv.innerHTML = '<p class="success-message">✅ Заявка успешно отправлена! Мы свяжемся с вами в течение 30 минут.</p>';
+                        setTimeout(() => {
+                            messageDiv.innerHTML = '';
+                        }, 5000);
+                    } else {
+                        messageDiv.innerHTML = '<p class="error-message">❌ Ошибка при отправке. Попробуйте позже.</p>';
+                    }
+                } catch (error) {
+                    let messageDiv = document.getElementById('form-message');
+                    if (!messageDiv) {
+                        messageDiv = document.createElement('div');
+                        messageDiv.id = 'form-message';
+                        form.parentNode.insertBefore(messageDiv, form.nextSibling);
+                    }
+                    messageDiv.innerHTML = '<p class="error-message">⚠️ Ошибка сети. Проверьте подключение к интернету.</p>';
+                } finally {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        }
+    }
+    
+    // Для мобильных: перезагрузка изображений при изменении ориентации
+    window.addEventListener('orientationchange', function() {
+        setTimeout(() => {
+            const gallery = document.getElementById('portfolio-gallery');
+            if (gallery && window.innerWidth <= 768) {
+                console.log('Перезагрузка портфолио после смены ориентации');
+                createPortfolioImages(gallery);
+            }
+        }, 300);
+    });
+    
+    // Проверка видимости портфолио на мобильных
+    if ('IntersectionObserver' in window && window.innerWidth <= 768) {
+        const portfolioSection = document.getElementById('portfolio');
+        if (portfolioSection) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        console.log('Портфолио видно на мобильном');
+                        // Можно принудительно перезагрузить изображения
+                        const gallery = document.getElementById('portfolio-gallery');
+                        if (gallery) {
+                            const images = gallery.querySelectorAll('img:not(.loaded)');
+                            images.forEach(img => {
+                                if (img.src.includes('.jfif')) {
+                                    const newSrc = img.src + '?retry=' + Date.now();
+                                    img.src = newSrc;
+                                }
+                            });
+                        }
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            observer.observe(portfolioSection);
+        }
+    }
     </script>
 </body>
-
 </html>
